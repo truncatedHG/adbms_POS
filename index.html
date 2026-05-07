@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unspoken Cafe Lounge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+ 
+  <div class="left-panel">
+
+    <div class="logo-area">
+      <img src="wweb_logo.jpg" width="350" height="350" alt="Unspoken Cafe Lounge Logo" class="logo-image" />
+    </div>
+
+    <h1 class="welcome-heading">Welcome!</h1>
+
+   
+    <nav class="nav-buttons">
+      <button class="nav-btn" onclick="showSection('menu')">MENU</button>
+      <button class="nav-btn" onclick="showSection('history')">FULL ORDER HISTORY</button>
+      <button class="nav-btn" onclick="showSection('inventory')">INVENTORY MANAGE SYSTEM</button>
+    </nav>
+
+  </div>
+
+ 
+  <div class="right-panel">
+    <div class="order-history-box">
+      <div class="order-history-header">ORDER HISTORY</div>
+      <div class="order-history-body" id="orderHistoryBody">
+        
+        <p class="empty-state">No recent orders.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
