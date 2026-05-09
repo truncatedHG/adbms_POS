@@ -8,7 +8,7 @@ function decreaseQty() {
 
     let currentValue = parseInt(qtyInput.value || 0);
 
-    if (currentValue > 0) {
+    if (currentValue > 0) {z
         qtyInput.value = currentValue - 1;
     }
 }
