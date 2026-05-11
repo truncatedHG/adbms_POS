@@ -173,11 +173,4 @@
       });
     }
  
-    function clearOrder() { orderItems = []; renderOrder(); }
- 
-    function checkOut() {
-      if (orderItems.length === 0) { alert('No items in order!'); return; }
-      const total = orderItems.reduce((sum, i) => sum + i.price * i.qty, 0);
-      alert('Order placed! Total: ₱' + total.toLocaleString() + '\nThank you for dining at Unspoken Cafe Lounge!');
-      clearOrder();
-    }
+
