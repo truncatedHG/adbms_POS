@@ -32,7 +32,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ── LAYOUT ── */
+
 body {
   display: flex;
   flex-direction: row;
@@ -40,7 +40,7 @@ body {
   min-height: 100vh;
 }
 
-/* ── LEFT PANEL ── */
+
 .left-panel {
   flex: 0 0 55%;
   display: flex;
@@ -53,7 +53,7 @@ body {
 }
 
 
-/* ── LOGO AREA ── */
+
 .logo-area {
   display: flex;
   align-items: center;
@@ -72,7 +72,6 @@ body {
   transform-origin: center;
 }
 
-/* ── WELCOME HEADING ── */
 .welcome-heading {
   font-family: var(--ff-display);
   font-size: clamp(4rem, 10vw, 7rem);
@@ -83,7 +82,6 @@ body {
   opacity: 1;
 }
 
-/* ── NAV BUTTONS ── */
 .nav-buttons {
   display: flex;
   flex-direction: column;
@@ -121,7 +119,6 @@ body {
   transform: translateY(0px);
 }
 
-/* ── RIGHT PANEL ── */
 .right-panel {
   flex: 0 0 45%;
   display: flex;
@@ -132,7 +129,6 @@ body {
   opacity: 1;
 }
 
-/* ── ORDER HISTORY BOX ── */
 .order-history-box {
   width: 100%;
   max-width: 480px;
@@ -167,9 +163,6 @@ body {
   gap: 0.8rem;
 }
 
-
-
-/* ── EMPTY STATE ── */
 .empty-state {
   font-family: var(--ff-body);
   font-size: 0.82rem;
@@ -179,7 +172,6 @@ body {
   font-style: italic;
 }
 
-/* ── ORDER ITEM (for future use) ── */
 .order-item {
   background-color: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
@@ -205,7 +197,6 @@ body {
   font-family: var(--ff-body);
 }
 
-/* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0);    }

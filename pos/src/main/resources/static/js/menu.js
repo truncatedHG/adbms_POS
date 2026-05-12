@@ -172,5 +172,21 @@
         list.appendChild(row);
       });
     }
+
+    function clearOrder() {
+      orderItems = [];
+      renderOrder();
+    }
+
+    function checkOut() {
+      if (orderItems.length === 0) {
+        alert('Please add items to your order before checking out.');
+        return;
+      }
+      const total = orderItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+      console.log('Order:', orderItems);
+      console.log('Total:', total);
+      // TODO: Implement checkout logic (send to backend)
+    }
  
 

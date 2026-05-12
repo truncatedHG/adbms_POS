@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unspoken Cafe Lounge — Order History</title>
+  <link rel="stylesheet" href="css/history.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo-icon">
+        <img src="images/final-logo.png" width="80" height="80" alt="Unspoken Cafe Lounge Logo" class="logo-image" />
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="table-wrapper">
+      <table class="order-table" id="orderTable">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Order ID</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Product ID</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="orderTableBody">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <button class="nav-btn" onclick="window.location.href='menu.html'">Menu</button>
+    <button class="nav-btn" onclick="window.location.href='index.html'">Home</button>
+  </footer>
+
+  <script src="js/history.js"></script>
+
+</body>
+</html>

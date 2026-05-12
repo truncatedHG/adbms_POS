@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black:        #000000;
+  --table-header: #3a3a3a;
+  --table-row:    #5a5a5a;
+  --table-row-alt:#525252;
+  --border:       #6e6e6e;
+  --white:        #ffffff;
+  --gray:         #cccccc;
+  --btn-bg:       #ffffff;
+  --btn-text:     #000000;
+
+  --ff-label: 'Barlow Condensed', sans-serif;
+  --ff-body:  'DM Sans', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--black);
+  color: var(--white);
+  font-family: var(--ff-body);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 2rem 1rem;
+}
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem 4rem 2rem;
+}
+.table-wrapper {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 600px;
+}
+
+.order-table thead tr {
+  background-color: var(--table-header);
+}
+
+.order-table thead th {
+  font-family: var(--ff-label);
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.order-table th:nth-child(1),
+.order-table td:nth-child(1) { width: 22%; } /* Product Name */
+.order-table th:nth-child(2),
+.order-table td:nth-child(2) { width: 12%; } /* Order ID */
+.order-table th:nth-child(3),
+.order-table td:nth-child(3) { width: 10%; } /* Quantity */
+.order-table th:nth-child(4),
+.order-table td:nth-child(4) { width: 22%; } /* Total */
+.order-table th:nth-child(5),
+.order-table td:nth-child(5) { width: 16%; } /* Product ID */
+.order-table th:nth-child(6),
+.order-table td:nth-child(6) { width: 18%; } /* Date */
+
+/* ── Table Body ── */
+.order-table tbody tr {
+  background-color: var(--table-row);
+  transition: background-color 0.15s;
+}
+
+.order-table tbody tr:nth-child(even) {
+  background-color: var(--table-row-alt);
+}
+
+.order-table tbody tr:hover {
+  background-color: rgba(255,255,255,0.12);
+}
+
+/* Empty placeholder rows */
+.order-table tbody tr.empty-row {
+  background-color: var(--table-row);
+  pointer-events: none;
+}
+.order-table tbody tr.empty-row:nth-child(even) {
+  background-color: var(--table-row-alt);
+}
+
+.order-table tbody td {
+  font-family: var(--ff-label);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  text-align: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  padding: 1.5rem 4rem 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  padding: 0.75rem 2.2rem;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  font-family: var(--ff-label);
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 2px solid var(--white);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.nav-btn:hover {
+  background-color: var(--black);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.nav-btn:active {
+  transform: translateY(0);
+}
+
+
+@media (max-width: 768px) {
+  .main  { padding: 1.2rem 1.2rem 1.5rem; }
+  .footer { padding: 1rem 1.2rem 1.5rem; flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .logo-name { font-size: 1.2rem; }
+  .nav-btn   { padding: 0.65rem 1.4rem; font-size: 0.8rem; }
+}
