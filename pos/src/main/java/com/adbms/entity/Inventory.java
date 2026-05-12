@@ -1,4 +1,4 @@
-package com.adbms.entity;
+ package com.adbms.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
