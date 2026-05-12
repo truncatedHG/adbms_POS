@@ -16,11 +16,20 @@ public class Order {
     @Column(name = "order_id")
     private Integer orderId;
 
+    @Column(name = "order_name", nullable = false)
+    private String order_name;
+
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
 
+    @Column(name = "order_quantity", nullable = false)
+    private Integer order_quantity;
+
     @Column(name = "order_total", nullable = false)
     private Integer orderTotal;
+
+    @Column(name = "product_id", nullable = false)
+    private Integer product_id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -58,5 +67,6 @@ public class Order {
         this.product = product;
     }
 
-    // getters and setters
+   
+    
 }
