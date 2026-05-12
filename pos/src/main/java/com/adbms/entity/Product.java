@@ -2,6 +2,8 @@ package com.adbms.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 
 @Entity
@@ -12,14 +14,18 @@ public class Product {
     @Column(name = "product_id")
     private Integer productId;
 
-    @Column(nullable = false)
+    @Column(name = "product_name", nullable = false)
+    private String product_name;
+
+    @Column(name = "price", nullable = false)
     private Integer price;
 
-    @Column(nullable = false)
-    private Integer quantity;
+    @Column(name = "stock_id", nullable = false)
+    private Integer stock_id;
 
-    @Column(nullable = false)
-    private Boolean available;
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private Inventory inventory;
 
     public Integer getProductId() {
         return productId;
@@ -37,21 +43,29 @@ public class Product {
         this.price = price;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-    public Boolean getAvailable() {
-        return available;
+    public Integer getStock_id() {
+        return stock_id;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public void setStock_id(Integer stock_id) {
+        this.stock_id = stock_id;
     }
 
-    // getters and setters
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+   
 }
