@@ -1,133 +1,176 @@
-let quantity = 0;
-let selectedRow = null;
+// Global State
+let currentQty = 0;
 
-const productId      = document.getElementById('productId');
-const productName    = document.getElementById('productName');
-const productDate    = document.getElementById('productDate');
-const quantityDisplay = document.getElementById('quantityDisplay');
-const tableBody      = document.getElementById('tableBody');
+// Element Selectors
+const productIdInput = document.getElementById('productId');
+const productNameInput = document.getElementById('productName');
+const qtyDisplay = document.getElementById('quantityDisplay');
+const tableBody = document.getElementById('tableBody');
+const productDateInput = document.getElementById('productDate');
 
-// Set today's date as default
-const today = new Date();
-const mm = String(today.getMonth() + 1).padStart(2, '0');
-const dd = String(today.getDate()).padStart(2, '0');
-const yyyy = today.getFullYear();
-productDate.value = `${mm}/${dd}/${yyyy}`;
-
-// Quantity controls
-document.getElementById('increaseBtn').addEventListener('click', () => {
-  quantity++;
-  quantityDisplay.textContent = quantity;
-});
-
-document.getElementById('decreaseBtn').addEventListener('click', () => {
-  if (quantity > 0) {
-    quantity--;
-    quantityDisplay.textContent = quantity;
-  }
-});
-
-// Add row
-document.getElementById('addBtn').addEventListener('click', () => {
-  const id   = productId.value.trim();
-  const name = productName.value.trim();
-  const date = productDate.value.trim();
-
-  if (!id || !name || !date) {
-    alert('Please fill in all fields.');
-    return;
-  }
-
-  // Find first empty row or append
-  const rows = tableBody.querySelectorAll('tr');
-  let placed = false;
-
-  for (let row of rows) {
-    const cells = row.querySelectorAll('td');
-    if (!cells[0].textContent.trim()) {
-      cells[0].textContent = id;
-      cells[1].textContent = name;
-      cells[2].textContent = quantity;
-      cells[3].textContent = date;
-      placed = true;
-      break;
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Set initial date display
+    if (productDateInput) {
+        productDateInput.value = new Date().toLocaleDateString();
     }
-  }
-
-  if (!placed) {
-    const newRow = tableBody.insertRow();
-    newRow.innerHTML = `<td>${id}</td><td>${name}</td><td>${quantity}</td><td>${date}</td>`;
-    addRowClickListener(newRow);
-  }
-
-  clearForm();
+    loadInventory();
 });
 
+// --- QUANTITY CONTROLS ---
+document.getElementById('increaseBtn').onclick = () => {
+    currentQty++;
+    updateQtyDisplay();
+};
 
-document.getElementById('deleteBtn').addEventListener('click', () => {
-  if (!selectedRow) {
-    alert('Please select a row to delete.');
-    return;
-  }
-  const cells = selectedRow.querySelectorAll('td');
-  cells[0].textContent = '';
-  cells[1].textContent = '';
-  cells[2].textContent = '';
-  cells[3].textContent = '';
-  selectedRow.classList.remove('selected');
-  selectedRow = null;
-  clearForm();
-});
+document.getElementById('decreaseBtn').onclick = () => {
+    if (currentQty > 0) {
+        currentQty--;
+        updateQtyDisplay();
+    }
+};
 
-
-document.getElementById('updateBtn').addEventListener('click', () => {
-  if (!selectedRow) {
-    alert('Please select a row to update.');
-    return;
-  }
-
-  const id   = productId.value.trim();
-  const name = productName.value.trim();
-  const date = productDate.value.trim();
-
-  if (!id || !name || !date) {
-    alert('Please fill in all fields.');
-    return;
-  }
-
-  const cells = selectedRow.querySelectorAll('td');
-  cells[0].textContent = id;
-  cells[1].textContent = name;
-  cells[2].textContent = quantity;
-  cells[3].textContent = date;
-
-  selectedRow.classList.remove('selected');
-  selectedRow = null;
-  clearForm();
-});
-
-function addRowClickListener(row) {
-  row.addEventListener('click', () => {
-    if (selectedRow) selectedRow.classList.remove('selected');
-    selectedRow = row;
-    row.classList.add('selected');
-
-    const cells = row.querySelectorAll('td');
-    productId.value    = cells[0].textContent;
-    productName.value  = cells[1].textContent;
-    quantity           = parseInt(cells[2].textContent) || 0;
-    quantityDisplay.textContent = quantity;
-    productDate.value  = cells[3].textContent;
-  });
+function updateQtyDisplay() {
+    qtyDisplay.innerText = currentQty;
 }
 
+// --- CRUD: READ (Fetch Active Items) ---
+async function loadInventory() {
+    try {
+        const response = await fetch('http://localhost:8080/inventory/all');
+        const data = await response.json();
+        
+        tableBody.innerHTML = '';
+        
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            
+            // Row Click: Populate form for Update/Delete
+            row.onclick = () => {
+                productIdInput.value = item.stockId; 
+                productNameInput.value = item.stockName;
+                currentQty = item.stock;
+                updateQtyDisplay();
+                
+                // Highlight Selection
+                document.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+                row.classList.add('selected');
+            };
 
-tableBody.querySelectorAll('tr').forEach(addRowClickListener);
+            row.innerHTML = `
+                <td>${item.stockId}</td>
+                <td>${item.stockName}</td>
+                <td>${item.stock}</td>
+                <td>${new Date().toLocaleDateString()}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error("Failed to load inventory:", error);
+    }
+}
 
+document.getElementById('addBtn').onclick = async () => {
+    const name = productNameInput.value.trim();
+    
+    if (!name) {
+        alert("Please enter a Product Name.");
+        return;
+    }
+
+    // Ensure stock is a proper number, not a string
+    const itemData = {
+        stockName: name,
+        stock: Number(currentQty),
+        active: true
+    };
+
+    console.log("Sending Add Payload:", itemData);
+
+    const response = await fetch('http://localhost:8080/inventory/add-stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemData)
+    });
+
+    if (response.ok) {
+        alert("Stock added/updated!");
+        loadInventory();
+        clearForm();
+    } else {
+        const errorText = await response.text();
+        console.error("Server Error:", errorText);
+        alert(`Error 400: Check console for JSON mismatch.`);
+    }
+};
+
+document.getElementById('updateBtn').onclick = async () => {
+    const id = productIdInput.value;
+    const name = productNameInput.value.trim();
+
+    if (!id) {
+        alert("Select an item from the table first.");
+        return;
+    }
+
+    const itemData = {
+        stockId: parseInt(id), // Must be an Integer
+        stockName: name,
+        stock: Number(currentQty),
+        active: true
+    };
+
+    console.log("Sending Update Payload:", itemData);
+
+    const response = await fetch('http://localhost:8080/inventory/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemData)
+    });
+
+    if (response.ok) {
+        alert("Update successful!");
+        loadInventory();
+        clearForm();
+    } else {
+        alert("Update failed (Error 400).");
+    }
+};
+
+// --- CRUD: DELETE (Soft Delete) ---
+// Logic: Calls the backend to set active = false.
+document.getElementById('deleteBtn').onclick = async () => {
+    const id = productIdInput.value;
+    
+    if (!id) {
+        alert("Select an item to delete.");
+        return;
+    }
+
+    if (confirm(`Are you sure you want to delete Stock ID ${id}?`)) {
+        try {
+            const response = await fetch(`http://localhost:8080/inventory/delete/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert("Item removed from active inventory.");
+                loadInventory();
+                clearForm();
+            } else {
+                alert("Delete failed. It might be linked to other data.");
+            }
+        } catch (error) {
+            console.error("Delete Error:", error);
+        }
+    }
+};
+
+// --- UI HELPER ---
 function clearForm() {
-  productId.value   = '';
-  productName.value = '';
-  quantity = 0;
-  quantityDisplay.textContent = 0;
-  productDate.value = `${mm}/${dd}/${yyyy}`;
+    productIdInput.value = '';
+    productNameInput.value = '';
+    currentQty = 0;
+    updateQtyDisplay();
+    document.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
 }

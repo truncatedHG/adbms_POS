@@ -1,10 +1,10 @@
-package com.adbms.service;
+package com.adbms.pos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.adbms.entity.Product;
-import com.adbms.repository.ProductRepository;
+import com.adbms.pos.entity.Product;
+import com.adbms.pos.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;

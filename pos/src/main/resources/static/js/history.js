@@ -110,3 +110,57 @@ window.addOrderToHistory = addOrderToHistory;
 document.addEventListener('DOMContentLoaded', () => {
   renderTable(loadHistory());
 });
+
+async function loadFullHistory() {
+    try {
+        // Fetch from your existing endpoint
+        const response = await fetch('http://localhost:8080/pos/recent');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const orders = await response.json();
+        const tableBody = document.getElementById('orderTableBody');
+
+        // Clear existing content
+        tableBody.innerHTML = '';
+
+        if (orders.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No orders found in history.</td></tr>';
+            return;
+        }
+
+        // Loop through and create rows
+        orders.forEach(order => {
+    const row = document.createElement('tr');
+    
+    // 1. Match the exact key from your JSON: orderId
+    const orderId = order.orderId; 
+    
+    // 2. Safely access the Product object
+    // Note: Usually, inside the product object, the ID is just 'id'
+    const productId = (order.product) ? (order.product.id || order.product.productId) : "N/A";
+    const productName = (order.product) ? order.product.productName : "Unknown";
+
+    row.innerHTML = `
+        <td>${productName}</td>
+        <td>#${orderId}</td>
+        <td>${order.orderQuantity}</td>
+        <td>₱${order.orderTotal.toLocaleString()}</td>
+        <td>${productId}</td>
+        <td>${order.orderDate}</td>
+    `;
+    
+    tableBody.appendChild(row);
+});
+
+    } catch (error) {
+        console.error('Error loading history:', error);
+        const tableBody = document.getElementById('orderTableBody');
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Failed to load order history.</td></tr>';
+    }
+}
+
+// Run the function when the page loads
+document.addEventListener('DOMContentLoaded', loadFullHistory);

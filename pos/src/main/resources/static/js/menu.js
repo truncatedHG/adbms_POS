@@ -178,6 +178,7 @@
       renderOrder();
     }
 
+  
     function checkOut() {
       if (orderItems.length === 0) {
         alert('Please add items to your order before checking out.');
@@ -188,5 +189,37 @@
       console.log('Total:', total);
       // TODO: Implement checkout logic (send to backend)
     }
- 
 
+    async function checkOut() {
+    if (orderItems.length === 0) {
+        alert("Your order is empty.");
+        return;
+    }
+
+    const payload = orderItems.map(item => ({
+        name: item.name,
+        qty: item.qty,
+        price: item.price
+    }));
+
+    try {
+        const response = await fetch("http://localhost:8080/pos/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        console.log("Server Response:", result); // <-- ADD THIS LINE
+
+        if (result.success) {
+            alert("yipee! " + result.message);
+            orderItems = [];
+            renderOrder();
+        } else {
+            alert("hell nah " + result.message);
+        }
+    } catch (err) {
+        alert("Skill issue, Could not connect to server.");
+    }
+}
