@@ -3,67 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventory Page</title>
+  <title>Unspoken Cafe Lounge</title>
   <link rel="stylesheet" href="css/inventory.css" />
 </head>
-
 <body>
 
-  <div class="container">
+  <div class="wrapper">
 
-   
-    <div class="logo-center">
-      <img src="images/final-logo.png" alt="Unspoken Cafe Lounge Logo">
+    <!-- Logo -->
+    <div class="logo-area">
+      <img src="images/final-logo.png" width="150" height="100" alt="Unspoken Cafe Lounge Logo" class="logo-image" />
     </div>
 
-    <!-- Top Section -->
-    <div class="top-section">
+    <!-- Main content -->
+    <div class="main">
 
-      <!-- Form Area -->
-      <div class="form-area">
-
-        <div class="form-group">
+      <!-- Left: Form -->
+      <div class="form-section">
+        <div class="field">
           <label>Product ID:</label>
-          <input type="text" id="ProductID" value="">
+          <input type="text" id="productId" placeholder="e.g. 101" />
         </div>
-
-        <div class="form-group">
-          <label>Product name:</label>
-          <input type="text" id="ProductName" value="">
+        <div class="field">
+          <label>Product Name:</label>
+          <input type="text" id="productName" placeholder="e.g. Coffee Beans" />
         </div>
-
-        <div class="form-group">
+        <div class="field">
           <label>Quantity:</label>
-          <div class="quantity-box">
-            <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
-            <input type="number" id="QuantityIn" class="qty-input" value="0" min="0">
-            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+          <div class="qty-control">
+            <button class="qty-btn" id="decreaseBtn">−</button>
+            <span id="quantityDisplay">0</span>
+            <button class="qty-btn" id="increaseBtn">+</button>
           </div>
         </div>
-
-        <div class="form-group">
+        <div class="field">
           <label>Date:</label>
-          <input type="text" id="Date" value="">
+          <input type="text" id="productDate" placeholder="MM/DD/YYYY" />
         </div>
-
       </div>
 
-      <!-- Right Controls -->
-      <div class="controls">
-
-        <button class="btn" id="AddBtn">Add</button>
-        <button class="btn" id="DeleteBtn">Delete</button>
-        <button class="btn" id="UpdateBtn">Update</button>
-
+      <!-- Right: Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn" id="addBtn">Add</button>
+        <button class="action-btn" id="deleteBtn">Delete</button>
+        <button class="action-btn" id="updateBtn">Update</button>
       </div>
 
     </div>
 
     <!-- Table -->
-    <div class="table-container">
-
-      <table>
-
+    <div class="table-wrapper">
+      <table id="productTable">
         <thead>
           <tr>
             <th>Product ID</th>
@@ -72,45 +62,32 @@
             <th>Date</th>
           </tr>
         </thead>
-
-        <tbody>
+        <tbody id="tableBody">
           <tr>
             <td>101</td>
             <td>Coffee Beans</td>
             <td>12</td>
             <td>05/08/2026</td>
           </tr>
-
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
         </tbody>
-
       </table>
-
     </div>
 
     <!-- Home Button -->
-    <a href="index.html">
-      <button class="home-btn">
-       Home 
-      </button>
-    </a>
+    <div class="bottom-bar">
+      <button class="home-btn" onclick="window.location.href='home.html'">Home</button>
+    </div>
 
   </div>
 
   <script src="js/inventory.js"></script>
-
 </body>
 </html>
